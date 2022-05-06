@@ -227,6 +227,7 @@ if(NOT BROTLI_BUNDLED_MODE)
   install(
     TARGETS brotli
     RUNTIME DESTINATION tools/brotli
+    BUNDLE DESTINATION tools/brotli
     CONFIGURATIONS Release
   )
 
