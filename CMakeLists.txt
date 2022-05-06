@@ -386,7 +386,7 @@ function(generate_pkg_config_path outvar path)
   set("${outvar}" "${${outvar}}" PARENT_SCOPE)
 endfunction(generate_pkg_config_path)
 
-function(transform_pc_file INPUT_FILE OUTPUT_FILE VERSION SHARED_TARGET STATIC_TARGET)
+function(transform_pc_file INPUT_FILE OUTPUT_FILE VERSION)
   file(READ ${INPUT_FILE} TEXT)
 
   set(PREFIX "${CMAKE_INSTALL_PREFIX}")
@@ -400,22 +400,15 @@ function(transform_pc_file INPUT_FILE OUTPUT_FILE VERSION SHARED_TARGET STATIC_T
   string(REGEX REPLACE "@includedir@" "${INCLUDEDIR}" TEXT ${TEXT})
 
   string(REGEX REPLACE "@PACKAGE_VERSION@" "${VERSION}" TEXT ${TEXT})
-   
-  if(BUILD_SHARED_LIBS)
-    set(LIB_NAME "${SHARED_TARGET}")
-  else()
-    set(LIB_NAME "${STATIC_TARGET}")
-  endif()
-  string(REGEX REPLACE "@lib_name@" "${LIB_NAME}" TEXT ${TEXT})
 
   file(WRITE ${OUTPUT_FILE} ${TEXT})
 endfunction()
 
-transform_pc_file("scripts/libbrotlicommon.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/libbrotlicommon.pc" "${BROTLI_VERSION}" brotlicommon brotlicommon-static)
+transform_pc_file("scripts/libbrotlicommon.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/libbrotlicommon.pc" "${BROTLI_VERSION}")
 
-transform_pc_file("scripts/libbrotlidec.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/libbrotlidec.pc" "${BROTLI_VERSION}" brotlidec brotlidec-static)
+transform_pc_file("scripts/libbrotlidec.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/libbrotlidec.pc" "${BROTLI_VERSION}")
 
-transform_pc_file("scripts/libbrotlienc.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/libbrotlienc.pc" "${BROTLI_VERSION}" brotlienc brotlienc-static)
+transform_pc_file("scripts/libbrotlienc.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/libbrotlienc.pc" "${BROTLI_VERSION}")
 
 if(NOT BROTLI_BUNDLED_MODE)
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libbrotlicommon.pc"
