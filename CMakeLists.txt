@@ -152,6 +152,8 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
   add_definitions(-DOS_FREEBSD)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   add_definitions(-DOS_MACOSX)
+elseif(MSVC)
+  add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
 function(transform_sources_list INPUT_FILE OUTPUT_FILE)
